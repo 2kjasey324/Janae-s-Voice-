@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Janae's Voice — Tap & Play</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="kiosk">
+
+  <div class="kiosk-stage" id="stage">
+    <!-- idle state -->
+    <div class="idle-ring"></div>
+    <div class="idle-ring ring-2"></div>
+    <div class="idle-copy" id="idleCopy">
+      <span class="idle-icon">🎵</span>
+      <p class="idle-title">Tap a card</p>
+      <p class="idle-sub">Hold it against the reader</p>
+    </div>
+
+    <!-- reveal state (filled in by JS) -->
+    <div class="reveal" id="reveal">
+      <div class="reveal-icon" id="revealIcon">🎶</div>
+      <p class="reveal-label" id="revealLabel"></p>
+      <p class="reveal-status" id="revealStatus"></p>
+    </div>
+  </div>
+
+  <div class="debug-strip" id="debugStrip" style="display:none;"></div>
+
+  <!-- an always-focused, invisible input so the reader's keystrokes
+       land somewhere even if the iPad's on-screen keyboard tries to
+       take over -->
+  <input
+    id="captureInput"
+    type="text"
+    autocomplete="off"
+    autocapitalize="off"
+    autocorrect="off"
+    spellcheck="false"
+    style="position:absolute; opacity:0; width:1px; height:1px; top:-100px;"
+  />
+
+  <script src="cards.js"></script>
+  <script src="spotify.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

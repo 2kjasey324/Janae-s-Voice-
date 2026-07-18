@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Settings — Janae's Voice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin">
+
+  <!-- PIN gate -->
+  <div class="modal-backdrop" id="pinGate">
+    <div class="modal">
+      <h3>🔒 Enter settings PIN</h3>
+      <div class="field-stack">
+        <label class="field">
+          PIN
+          <input type="password" id="pinInput" inputmode="numeric" placeholder="1234" />
+        </label>
+      </div>
+      <button class="btn btn-primary" id="pinSubmit" style="width:100%;">Unlock</button>
+      <p class="hint" id="pinError" style="color:#c23b3b; margin-top:10px; display:none;">That's not it — try again.</p>
+    </div>
+  </div>
+
+  <div id="adminUI" style="display:none;">
+    <header class="admin-header">
+      <h1>🎚️ Janae's Voice — Settings</h1>
+      <p>Connect Spotify and set up what each card does. Changes save automatically.</p>
+    </header>
+
+    <div class="admin-body">
+
+      <section class="panel">
+        <h2>Spotify</h2>
+        <p class="hint">Songs and playlists play through the Spotify app already open on the iPad. Make sure that app is open and logged in before testing a card.</p>
+
+        <div id="spotifyDisconnected">
+          <div class="field-stack">
+            <label class="field">
+              Spotify Client ID
+              <input type="text" id="clientIdInput" placeholder="paste from your Spotify Developer Dashboard" />
+            </label>
+          </div>
+          <div class="row">
+            <button class="btn btn-primary" id="saveClientIdBtn">Save Client ID</button>
+            <button class="btn btn-gold" id="connectBtn">Connect Spotify</button>
+          </div>
+          <p class="hint" style="margin-top:10px;">Redirect URI to register in Spotify's dashboard: <code id="redirectUriDisplay"></code></p>
+        </div>
+
+        <div id="spotifyConnected" style="display:none;">
+          <span class="status-pill ok">● Connected</span>
+          <span id="spotifyUserLabel" class="hint" style="margin-left:8px;"></span>
+          <div class="row" style="margin-top:14px;">
+            <button class="btn btn-ghost" id="disconnectBtn">Disconnect</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="row" style="justify-content:space-between;">
+          <div>
+            <h2>Cards</h2>
+            <p class="hint" style="margin-bottom:0;">Every NFC card and what it does when tapped.</p>
+          </div>
+          <button class="btn btn-primary" id="addCardBtn">+ Add card</button>
+        </div>
+        <div class="card-list" id="cardList" style="margin-top:14px;"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Backup</h2>
+        <p class="hint">Save your card list to a file, or load one back in.</p>
+        <div class="row">
+          <button class="btn btn-ghost" id="exportBtn">Export cards (.json)</button>
+          <button class="btn btn-ghost" id="importBtn">Import cards</button>
+          <input type="file" id="importFile" accept="application/json" style="display:none;" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Settings PIN</h2>
+        <div class="row">
+          <label class="field">
+            New PIN
+            <input type="password" id="newPinInput" inputmode="numeric" placeholder="1234" />
+          </label>
+          <button class="btn btn-ghost" id="savePinBtn">Update PIN</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- add/edit card modal -->
+  <div class="modal-backdrop" id="cardModal" style="display:none;">
+    <div class="modal">
+      <h3 id="cardModalTitle">Add a card</h3>
+      <div class="field-stack">
+        <div>
+          <label class="field">Tag ID</label>
+          <div class="tag-scan-box" id="tagScanBox">Tap the card on the reader now to fill this in — or type it manually below.</div>
+          <input type="text" id="tagIdInput" placeholder="e.g. 04A2B3C1" style="margin-top:8px; width:100%;" />
+        </div>
+        <label class="field">
+          Label (what this card is)
+          <input type="text" id="labelInput" placeholder="e.g. Twinkle Twinkle" />
+        </label>
+        <label class="field">
+          Icon (one emoji)
+          <input type="text" id="iconInput" placeholder="🌟" maxlength="4" />
+        </label>
+        <div>
+          <label class="field" style="margin-bottom:8px;">What happens when it's tapped?</label>
+          <div class="action-type-toggle" id="actionTypeToggle">
+            <button type="button" data-type="song" class="active">Song</button>
+            <button type="button" data-type="playlist">Playlist</button>
+            <button type="button" data-type="phrase">Spoken phrase</button>
+          </div>
+        </div>
+        <label class="field" id="spotifyLinkField">
+          Spotify link
+          <input type="text" id="spotifyLinkInput" placeholder="paste a share link from Spotify" />
+        </label>
+        <label class="field" id="phraseField" style="display:none;">
+          Phrase to speak
+          <textarea id="phraseInput" placeholder="e.g. I want a snack, please"></textarea>
+        </label>
+      </div>
+      <div class="row" style="justify-content:flex-end;">
+        <button class="btn btn-ghost" id="testCardBtn">Test</button>
+        <button class="btn btn-ghost" id="cancelCardBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveCardBtn">Save card</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="cards.js"></script>
+  <script src="spotify.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
